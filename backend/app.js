@@ -14,11 +14,11 @@ config({ path: "./config/config.env" });
 
 app.use(
   cors({
-    origin: [process.env.FRONTEND_URL],
-    method: ["GET", "POST", "DELETE", "PUT"],
+    origin: true,
     credentials: true,
   })
 );
+
 
 app.use(cookieParser());
 app.use(express.json());
@@ -36,4 +36,20 @@ app.use("/api/v1/application", applicationRouter);
 dbConnection();
 
 app.use(errorMiddleware);
+
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// ✅ Serve React frontend
+const frontendPath = path.join(__dirname, "../frontend/dist"); // adjust if needed
+app.use(express.static(frontendPath));
+
+// ✅ Catch-all for React Router
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(frontendPath, "index.html"));
+});
+
 export default app;
