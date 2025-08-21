@@ -10,10 +10,10 @@ function Footer() {
     <footer className= {isAuthorized ? "footerShow" : "footerHide"}>
 <div>&copy; All Rights Reserved by Abhishek.</div>
 <div>
-  <Link to={'https://github.com/exclusiveabhi'} target='github'><FaGithub></FaGithub></Link>
-  <Link to={'https://leetcode.com/u/exclusiveabhi/'} target='leetcode'><SiLeetcode></SiLeetcode></Link>
-  <Link to={'https://www.linkedin.com/in/abhishek-rajput-/'} target='linkedin'><FaLinkedin></FaLinkedin></Link>
-  <Link to={'https://www.instagram.com/exclusiveabhi/'} target='instagram'><RiInstagramFill></RiInstagramFill></Link>
+  <Link to={'https://github.com/preetisharma383/job-portal-react'} target='github'><FaGithub></FaGithub></Link>
+  <Link to={'https://leetcode.com/u/preeti4794225/'} target='leetcode'><SiLeetcode></SiLeetcode></Link>
+  <Link to={'https://www.linkedin.com/in/preeti-sharma-174908336/'} target='linkedin'><FaLinkedin></FaLinkedin></Link>
+  <Link to={'https://www.instagram.com/preetii.13__/'} target='instagram'><RiInstagramFill></RiInstagramFill></Link>
 </div>
       
     </footer>

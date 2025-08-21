@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
-import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { Context } from "../../main";
+import axiosInstance from "../../axiosInstance"; // ✅ use axiosInstance
+
 const JobDetails = () => {
   const { id } = useParams();
   const [job, setJob] = useState({});
@@ -11,17 +11,16 @@ const JobDetails = () => {
   const { isAuthorized, user } = useContext(Context);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:4000/api/v1/job/${id}`, {
-        withCredentials: true,
-      })
-      .then((res) => {
-        setJob(res.data.job);
-      })
-      .catch((error) => {
+    const fetchJob = async () => {
+      try {
+        const { data } = await axiosInstance.get(`/job/${id}`);
+        setJob(data.job);
+      } catch (error) {
         navigateTo("/notfound");
-      });
-  }, []);
+      }
+    };
+    fetchJob();
+  }, [id, navigateTo]);
 
   if (!isAuthorized) {
     navigateTo("/login");
@@ -33,7 +32,7 @@ const JobDetails = () => {
         <h3>Job Details</h3>
         <div className="banner">
           <p>
-            Title: <span> {job.title}</span>
+            Title: <span>{job.title}</span>
           </p>
           <p>
             Category: <span>{job.category}</span>
