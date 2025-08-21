@@ -1,29 +1,29 @@
 import React, { useContext, useState } from "react";
 import { Context } from "../../main";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { GiHamburgerMenu } from "react-icons/gi";
-import { AiOutlineClose } from "react-icons/ai"; // Import the close icon
+import { AiOutlineClose } from "react-icons/ai";
+import axiosInstance from "../../axiosInstance"; // adjust path if needed
 
 const Navbar = () => {
   const [show, setShow] = useState(false);
   const { isAuthorized, setIsAuthorized, user } = useContext(Context);
-  const navigateTo = useNavigate();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:4000/api/v1/user/logout",
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axiosInstance.get("/user/logout", {
+        withCredentials: true,
+      });
       toast.success(response.data.message);
       setIsAuthorized(false);
-      navigateTo("/login");
+      navigate("/login");
     } catch (error) {
-      toast.error(error.response.data.message), setIsAuthorized(true);
+      const msg =
+        error?.response?.data?.message || "Something went wrong during logout.";
+      toast.error(msg);
+      setIsAuthorized(true);
     }
   };
 
@@ -33,42 +33,53 @@ const Navbar = () => {
         <div className="logo">
           <img src="/careerconnect-white.png" alt="logo" />
         </div>
-        <ul className={!show ? "menu" : "show-menu menu"}>
+
+        <ul className={`menu ${show ? "show-menu" : ""}`}>
           <li>
-            <Link to={"/"} onClick={() => setShow(false)}>
+            <Link to="/" onClick={() => setShow(false)}>
               HOME
             </Link>
           </li>
           <li>
-            <Link to={"/job/getall"} onClick={() => setShow(false)}>
+            <Link to="/job/getall" onClick={() => setShow(false)}>
               ALL JOBS
             </Link>
           </li>
           <li>
-            <Link to={"/applications/me"} onClick={() => setShow(false)}>
-              {user && user.role === "Employer"
+            <Link to="/applications/me" onClick={() => setShow(false)}>
+              {user?.role === "Employer"
                 ? "APPLICANT'S APPLICATIONS"
                 : "MY APPLICATIONS"}
             </Link>
           </li>
-          {user && user.role === "Employer" ? (
+
+          {user?.role === "Employer" && (
             <>
               <li>
-                <Link to={"/job/post"} onClick={() => setShow(false)}>
+                <Link to="/job/post" onClick={() => setShow(false)}>
                   POST NEW JOB
                 </Link>
               </li>
               <li>
-                <Link to={"/job/me"} onClick={() => setShow(false)}>
+                <Link to="/job/me" onClick={() => setShow(false)}>
                   VIEW YOUR JOBS
                 </Link>
               </li>
             </>
-          ) : null}
+          )}
 
-          <button onClick={handleLogout}>LOGOUT</button>
+          <li>
+            <button className="logout-btn" onClick={handleLogout}>
+              LOGOUT
+            </button>
+          </li>
         </ul>
-        <div className="hamburger" onClick={() => setShow(!show)}>
+
+        <div
+          className="hamburger"
+          onClick={() => setShow((prev) => !prev)}
+          aria-label="Menu Toggle"
+        >
           {show ? <AiOutlineClose /> : <GiHamburgerMenu />}
         </div>
       </div>
