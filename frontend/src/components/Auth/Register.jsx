@@ -50,7 +50,7 @@ const Register = () => {
       <section className="authPage">
         <div className="container">
           <div className="header">
-            <h2>Global Connect</h2>
+            <img src="/careerconnect-black.png" alt="logo" />
             <h3>Create a new account</h3>
           </div>
           <form>
