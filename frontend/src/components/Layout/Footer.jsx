@@ -8,7 +8,7 @@ function Footer() {
   const {isAuthorized}  = useContext(Context)
   return (
     <footer className= {isAuthorized ? "footerShow" : "footerHide"}>
-<div>&copy; All Rights Reserved by Preeti | GlobalConnect</div>
+<div>&copy; All Rights Reserved by Preeti | CareerConnect</div>
 <div>
   <Link to={'https://github.com/preetisharma383/job-portal-react'} target='github'><FaGithub></FaGithub></Link>
   <Link to={'https://leetcode.com/u/preeti4794225/'} target='leetcode'><SiLeetcode></SiLeetcode></Link>
